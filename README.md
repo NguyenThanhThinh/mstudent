@@ -1,0 +1,2 @@
+# mstudent
+asp net core 
