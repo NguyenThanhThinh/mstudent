@@ -1,4 +1,5 @@
 ﻿using ManagementStudent.Data.Configurations;
+using ManagementStudent.Data.Extensions;
 using ManagementStudent.Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -25,6 +26,8 @@ namespace ManagementStudent.Data
 
 			modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims");
 			modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens").HasKey(x => x.UserId);
+
+			modelBuilder.Seed();
 		}
 
 		public DbSet<Student> Students { get; set; }
