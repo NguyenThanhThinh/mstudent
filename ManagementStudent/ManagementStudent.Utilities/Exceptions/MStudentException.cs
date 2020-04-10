@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ManagementStudent.ViewModels.Exceptions
+namespace ManagementStudent.Utilities.Exceptions
 {
     public class MStudentException: Exception
     {
