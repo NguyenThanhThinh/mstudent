@@ -2,10 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ManagementStudent.Data;
+using ManagementStudent.Entities.Models;
+using ManagementStudent.Services.Users;
+using ManagementStudent.Utilities.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,13 +32,23 @@ namespace ManagementStudent.Api
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllers();
+			services.AddDbContext<ManagementStudentDbContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
+			services.AddIdentity<User, Role>()
+				.AddEntityFrameworkStores<ManagementStudentDbContext>()
+				.AddDefaultTokenProviders();
+
+			services.AddTransient<UserManager<User>, UserManager<User>>();
+			services.AddTransient<SignInManager<User>, SignInManager<User>>();
+			services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
+			services.AddTransient<IUserService, UserService>();
 			//Register the Swagger generator, defining 1 or more Swagger documents
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Management Student", Version = "v1" });
 			});
+			services.AddControllers();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
