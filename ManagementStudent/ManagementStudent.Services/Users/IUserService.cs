@@ -9,5 +9,7 @@ namespace ManagementStudent.Services.Users
 	public interface IUserService
 	{
 		Task<string> Authencatetion(LoginRequest request);
+
+		Task<bool> Register(RegisterRequest request);
 	}
 }

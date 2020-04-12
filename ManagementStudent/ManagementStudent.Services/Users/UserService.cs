@@ -63,5 +63,24 @@ namespace ManagementStudent.Services.Users
 			return new JwtSecurityTokenHandler().WriteToken(token);
 			
 		}
+
+		public async Task<bool> Register(RegisterRequest request)
+		{
+			var user = new User
+			{
+				Email = request.Email,
+				FirstName = request.FirstName,
+				LastName = request.LastName,
+				UserName = request.UserName,
+				PhoneNumber = request.PhoneNumber
+
+			};
+
+			var result = await _userManager.CreateAsync(user, request.Password);
+
+			if (result.Succeeded) return true;
+
+			return false;
+		}
 	}
 }
